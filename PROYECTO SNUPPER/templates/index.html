@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container py-5">
+
+
+
+
+<div class="row mb-5 animate-up">
+    <div class="col-6 col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-light-blue">
+                <i class="fa-solid fa-box-archive text-primary"></i>
+            </div>
+            <div class="stat-content">
+                <small class="stat-label">Total</small>
+                <h3 class="stat-value">{{ total }}</h3>
+                <span class="stat-subtext">Fragancias</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-light-green">
+                <i class="fa-solid fa-check-circle text-success"></i>
+            </div>
+            <div class="stat-content">
+                <small class="stat-label text-success">Saludable</small>
+                <h3 class="stat-value">{{ ok }}</h3>
+                <span class="stat-subtext">Stock lleno</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-3">
+        <div class="stat-card">
+            <div class="stat-icon bg-light-orange">
+                <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+            </div>
+            <div class="stat-content">
+                <small class="stat-label text-warning">Bajo</small>
+                <h3 class="stat-value">{{ bajo }}</h3>
+                <span class="stat-subtext">- 50% capacidad</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-6 col-md-3 mb-3">
+        <div class="stat-card highlight-danger">
+            <div class="stat-icon bg-light-red">
+                <i class="fa-solid fa-circle-exclamation text-danger"></i>
+            </div>
+            <div class="stat-content">
+                <small class="stat-label text-danger">Crítico</small>
+                <h3 class="stat-value">{{ critico }}</h3>
+                <span class="stat-subtext">Rellenar ahora</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* CONTENEDOR DE TARJETA */
+    .stat-card {
+        background: #fff;
+        padding: 1.2rem;
+        border-radius: 20px;
+        border: 1px solid #f0f0f0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+
+    /* ICONOS */
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 12px;
+        font-size: 1.2rem;
+    }
+
+    /* COLORES DE FONDO SUAVES PARA ICONOS */
+    .bg-light-blue { background-color: #eef6ff; }
+    .bg-light-green { background-color: #ebfaf2; }
+    .bg-light-orange { background-color: #fff8ed; }
+    .bg-light-red { background-color: #fff2f2; }
+
+    /* TEXTOS */
+    .stat-label {
+        display: block;
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 4px;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        color: #2d3436;
+    }
+
+    .stat-subtext {
+        font-size: 0.75rem;
+        color: #b2bec3;
+        font-weight: 500;
+    }
+
+    /* RESALTADO ESPECIAL PARA CRÍTICO */
+    .highlight-danger {
+        border-bottom: 3px solid #ff7675;
+    }
+
+    /* ANIMACIÓN */
+    .animate-up {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+
+    <div class="row">
+    {% for p in perfumes %}
+        {% set capacidad = p.capacidad %}
+        {% set porcentaje = (p.mililitros / capacidad) * 100 %}
+
+        <div class="col-6 col-md-4 col-lg-3 mb-5">
+            <div class="perfume-card">
+                <div class="perfume-header">
+                    <h5 class="perfume-title">{{ p.nombre }}</h5>
+                    <small class="text-muted text-uppercase">{{ capacidad }}ml total</small>
+                </div>
+
+                <div class="botella-container">
+                    <div class="botella">
+                        <div class="liquido {% if porcentaje <= 15 %} liquido-bajo {% endif %}" 
+                             style="height: {{ porcentaje }}%;">
+                        </div>
+                        <div class="porcentaje-badge">
+                            {{ p.mililitros }} ml
+                        </div>
+                    </div>
+                </div>
+
+                <div class="perfume-footer">
+                    {% if porcentaje <= 15 %}
+                        <a href="{{ url_for('rellenar', id=p.id) }}" class="btn-rellenar">
+                            Rellenar Stock
+                        </a>
+                    {% else %}
+                        <div class="status-ok">
+                            <i class="fas fa-check-circle"></i> En Stock
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+
+<style>
+    :root {
+        --color-bg-botella: #fcfcfc;
+        --color-azul: #4da3ff;
+        --color-rojo: #ff6b6b;
+        --color-borde: #e0e0e0;
+        --color-texto: #444;
+    }
+
+    /* TARJETA MINIMALISTA */
+    .perfume-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 1.5rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #f0f0f0;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .perfume-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .perfume-title {
+        font-weight: 700;
+        color: var(--color-texto);
+        margin-bottom: 2px;
+        font-size: 1.1rem;
+    }
+
+    /* BOTELLA ESTILIZADA */
+    .botella-container {
+        padding: 20px 0;
+    }
+
+    .botella {
+        width: 80px; /* Un poco más delgada y elegante */
+        height: 160px;
+        border: 2px solid var(--color-borde);
+        border-radius: 12px 12px 8px 8px;
+        position: relative;
+        overflow: hidden;
+        margin: auto;
+        background: var(--color-bg-botella);
+    }
+
+   .liquido {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        background: var(--color-azul);
+        transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Quitamos el overflow:hidden aquí si queremos que la ola sobresalga un poco */
+    }
+
+    /* OLEAJE CON CRESTAS HACIA ARRIBA */
+    .liquido::before {
+        content: "";
+        position: absolute;
+        top: -18px; /* Ajuste para que la ola se siente sobre el bloque azul */
+        left: 0;
+        width: 400%;
+        height: 20px;
+        /* SVG NUEVO: Relleno inferior con ondas hacia arriba */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,120V67.19c0,0,40.5,35.43,111.69,35.43,71.18,0,108-81.67,238.2-81.67S531.18,102.62,600,102.62s101.5-74.12,242.22-74.12c140.72,0,154.07,91.5,357.78,91.5V120Z' fill='%234da3ff'/%3E%3C/svg%3E");
+        background-size: 25% 100%;
+        animation: moverOlas 5s linear infinite;
+    }
+
+    .liquido-bajo { 
+        background: var(--color-rojo); 
+    }
+    
+    .liquido-bajo::before {
+        /* Mismo SVG pero con color rojo fill='%23ff6b6b' */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,120V67.19c0,0,40.5,35.43,111.69,35.43,71.18,0,108-81.67,238.2-81.67S531.18,102.62,600,102.62s101.5-74.12,242.22-74.12c140.72,0,154.07,91.5,357.78,91.5V120Z' fill='%23ff6b6b'/%3E%3C/svg%3E");
+    }
+
+    @keyframes moverOlas {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+    }
+
+    /* BADGE DE PORCENTAJE SOBRE EL LÍQUIDO */
+    .porcentaje-badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: rgba(0,0,0,0.5);
+        z-index: 5;
+        pointer-events: none;
+    }
+
+    /* BOTONES Y ESTADOS */
+    .btn-rellenar {
+        display: inline-block;
+        padding: 8px 20px;
+        background: var(--color-rojo);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        transition: background 0.3s;
+    }
+
+    .btn-rellenar:hover {
+        background: #ee5253;
+        color: white;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+    }
+
+    .status-ok {
+        color: #10ac84;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}

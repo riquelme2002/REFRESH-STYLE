@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-5">
+            
+            <a href="/" class="btn-volver mb-3">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver al inventario
+            </a>
+
+            <div class="form-card">
+                <div class="form-header text-center">
+                    <span class="badge-category">REABASTECIMIENTO</span>
+                    <h3 class="mt-2">{{ perfume.nombre }}</h3>
+                    <p class="text-muted small">Ajusta los niveles de inventario de esta fragancia</p>
+                </div>
+
+                <hr class="divider">
+
+                <div class="info-grid mb-4">
+                    <div class="info-item">
+                        <span class="label">Actual</span>
+                        <span class="value text-primary">{{ perfume.mililitros }} ml</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Máximo</span>
+                        <span class="value">{{ perfume.capacidad }} ml</span>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">Cantidad a añadir</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fa-solid fa-droplet text-info"></i>
+                            </span>
+                            <input type="number" 
+                                   name="mililitros" 
+                                   class="form-control form-control-lg border-start-0 ps-0" 
+                                   placeholder="Ej: 100"
+                                   min="1" 
+                                   max="{{ perfume.capacidad - perfume.mililitros }}"
+                                   required>
+                            <span class="input-group-text bg-white">ml</span>
+                        </div>
+                        <div class="form-text text-center mt-2">
+                            Espacio disponible: {{ perfume.capacidad - perfume.mililitros }} ml
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-plus-circle me-2"></i> Confirmar Rellenado
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* VARIABLES LOCALES */
+    :root {
+        --color-azul: #4da3ff;
+        --color-texto: #2d3436;
+        --color-bg-card: #ffffff;
+    }
+
+    .btn-volver {
+        display: inline-block;
+        color: #636e72;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+    .btn-volver:hover { color: var(--color-azul); }
+
+    .form-card {
+        background: var(--color-bg-card);
+        border-radius: 24px;
+        padding: 2.5rem;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    }
+
+    .badge-category {
+        font-size: 0.65rem;
+        letter-spacing: 1.5px;
+        font-weight: 800;
+        background: #e1f0ff;
+        color: var(--color-azul);
+        padding: 5px 12px;
+        border-radius: 50px;
+    }
+
+    .divider {
+        margin: 2rem 0;
+        opacity: 0.1;
+    }
+
+    /* GRID DE INFORMACIÓN */
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        background: #fbfbfb;
+        padding: 15px;
+        border-radius: 15px;
+    }
+
+    .info-item {
+        text-align: center;
+    }
+
+    .info-item .label {
+        display: block;
+        font-size: 0.7rem;
+        color: #95a5a6;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+    .info-item .value {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--color-texto);
+    }
+
+    /* INPUTS Y BOTONES */
+    .form-control-lg {
+        border-radius: 12px;
+        font-size: 1rem;
+        border-color: #eee;
+    }
+
+    .form-control-lg:focus {
+        border-color: var(--color-azul);
+        box-shadow: 0 0 0 4px rgba(77, 163, 255, 0.1);
+    }
+
+    .input-group-text {
+        border-radius: 12px;
+        border-color: #eee;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 14px;
+        background: #10ac84; /* Verde esmeralda */
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 15px rgba(16, 172, 132, 0.2);
+    }
+
+    .btn-submit:hover {
+        background: #0d9471;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(16, 172, 132, 0.3);
+    }
+</style>
+
+{% endblock %}

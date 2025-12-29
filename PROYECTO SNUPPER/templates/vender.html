@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            
+            <div class="form-card animate-up">
+                <div class="form-header text-center mb-4">
+                    <div class="icon-circle mb-3">
+                        <i class="fa-solid fa-cart-shopping text-primary"></i>
+                    </div>
+                    <h3>Registrar Venta</h3>
+                    <p class="text-muted">Descuenta mililitros del inventario actual</p>
+                </div>
+
+                <form method="POST">
+                    
+                    <div class="search-section mb-4">
+                        <label class="form-label fw-bold small text-uppercase">1. Buscar fragancia</label>
+                        <div class="input-group custom-search">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fa-solid fa-magnifying-glass text-muted"></i>
+                            </span>
+                            <input type="text" 
+                                   id="buscador" 
+                                   class="form-control border-start-0 ps-0" 
+                                   placeholder="Escribe el nombre del perfume...">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">2. Confirmar perfume</label>
+                        <select name="perfume" 
+                                id="listaPerfumes" 
+                                class="form-select custom-select" 
+                                required>
+                            {% for p in perfumes %}
+                                <option value="{{ p.id }}">{{ p.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="form-label fw-bold small text-uppercase">3. Cantidad a vender</label>
+                        <div class="quantity-grid">
+                            <select name="cantidad" class="form-select custom-select" required>
+                                <option value="16">💧 16 ml</option>
+                                <option value="25">💧 25 ml</option>
+                                <option value="35">💧 35 ml</option>
+                                <option value="60">💧 60 ml</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-sell">
+                        <i class="fa-solid fa-check-double me-2"></i> Procesar Venta
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* VARIABLES Y ESTILOS DE TARJETA */
+    .form-card {
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 2.5rem;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.04);
+    }
+
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        background: #eef6ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 1.5rem;
+    }
+
+    /* BUSCADOR Y SELECTS */
+    .custom-search, .custom-select {
+        border-radius: 12px !important;
+        transition: all 0.3s ease;
+    }
+
+    .form-control, .form-select {
+        padding: 12px 15px;
+        border: 1.5px solid #eee;
+        font-size: 0.95rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #4da3ff;
+        box-shadow: 0 0 0 4px rgba(77, 163, 255, 0.1);
+    }
+
+    /* BOTÓN DE VENTA */
+    .btn-sell {
+        width: 100%;
+        padding: 16px;
+        background: #2d3436; /* Color oscuro elegante */
+        color: white;
+        border: none;
+        border-radius: 15px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-sell:hover {
+        background: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* ANIMACIÓN */
+    .animate-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<script>
+document.getElementById('buscador').addEventListener('keyup', function () {
+    const texto = this.value.toLowerCase();
+    const opciones = document.querySelectorAll('#listaPerfumes option');
+    let primeraVisible = null;
+
+    opciones.forEach(opcion => {
+        const nombre = opcion.textContent.toLowerCase();
+        if (nombre.includes(texto)) {
+            opcion.style.display = '';
+            if (!primeraVisible) primeraVisible = opcion;
+        } else {
+            opcion.style.display = 'none';
+        }
+    });
+
+    if (primeraVisible) {
+        primeraVisible.selected = true;
+    }
+});
+</script>
+
+{% endblock %}

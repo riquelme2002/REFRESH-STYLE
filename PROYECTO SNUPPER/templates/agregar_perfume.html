@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-5">
+            
+            <a href="/" class="btn-volver mb-3">
+                <i class="fa-solid fa-arrow-left me-2"></i> Volver al inicio
+            </a>
+
+            <div class="form-card animate-up">
+                <div class="form-header text-center mb-4">
+                    <div class="icon-stack mb-3">
+                        <i class="fa-solid fa-vial-circle-check text-primary"></i>
+                    </div>
+                    <h3>Nuevo Producto</h3>
+                    <p class="text-muted">Ingresa los detalles para dar de alta la fragancia</p>
+                </div>
+
+                <form method="POST">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-uppercase">Nombre de la Fragancia</label>
+                        <div class="input-group custom-input">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fa-solid fa-tag text-muted"></i>
+                            </span>
+                            <input type="text" 
+                                   name="nombre" 
+                                   class="form-control border-start-0 ps-0" 
+                                   placeholder="Ej: Bleu de Chanel" 
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="form-label fw-bold small text-uppercase">Capacidad Total del Bote</label>
+                        <div class="input-group custom-input">
+                            <span class="input-group-text bg-white border-end-0">
+                                <i class="fa-solid fa-flask text-muted"></i>
+                            </span>
+                            <input type="number" 
+                                   name="mililitros" 
+                                   class="form-control border-start-0 ps-0" 
+                                   placeholder="Ej: 250" 
+                                   required>
+                            <span class="input-group-text bg-white border-start-0">ml</span>
+                        </div>
+                        <div class="form-text text-center mt-2">
+                            <i class="fa-solid fa-info-circle me-1"></i> Se creará con el líquido al 100%
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-save">
+                        <i class="fa-solid fa-floppy-disk me-2"></i> Guardar en Inventario
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ESTILOS DE LA TARJETA AGREGAR */
+    .form-card {
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 3rem;
+        border: 1px solid #f0f0f0;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    }
+
+    .icon-stack {
+        width: 70px;
+        height: 70px;
+        background: #f0f7ff;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 1.8rem;
+        transform: rotate(-5deg); /* Toque de diseño moderno */
+    }
+
+    /* INPUTS ESTILIZADOS */
+    .custom-input {
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    .form-control {
+        padding: 14px 15px;
+        border: 1.5px solid #f1f1f1;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #4da3ff;
+        box-shadow: 0 0 0 4px rgba(77, 163, 255, 0.1);
+        z-index: 3;
+    }
+
+    .input-group-text {
+        border: 1.5px solid #f1f1f1;
+        padding-left: 20px;
+        padding-right: 15px;
+    }
+
+    /* BOTÓN GUARDAR */
+    .btn-save {
+        width: 100%;
+        padding: 16px;
+        background: #0984e3; /* Azul vibrante */
+        color: white;
+        border: none;
+        border-radius: 16px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .btn-save:hover {
+        background: #0773c5;
+        transform: translateY(-3px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(9, 132, 227, 0.3);
+    }
+
+    .btn-volver {
+        display: inline-block;
+        color: #b2bec3;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .btn-volver:hover {
+        color: #2d3436;
+    }
+
+    /* ANIMACIÓN DE ENTRADA */
+    .animate-up {
+        animation: fadeInUp 0.7s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+{% endblock %}
